@@ -12,9 +12,20 @@
 ## 5 STANDING
 ## 6 LAYING
 
-library(plyr)
+pkgTest <- function(x)
+{
+    if (!require(x,character.only = TRUE))
+    {
+        install.packages(x,dep=TRUE)
+        if(!require(x,character.only = TRUE)) stop("Package not found")
+    }
+}
 
 Setup <- function(){
+    library(reshape2)
+    library(plyr)
+    #pkgTest("reshape")
+    #pkgTest("plyr")
     setwd("/Users/daghan/Hacking/Coursera/Data\ Science/Get\ Data/project")
     a <- read.table("./UCI\ HAR\ Dataset/features.txt")
     features <- as.character(a$V2)
@@ -38,12 +49,12 @@ Setup <- function(){
                        mergedtable[121],mergedtable[122],mergedtable[123],
                        mergedtable[124],mergedtable[125],mergedtable[126],
                        mergedtable[562],mergedtable[563])
-    tidycolumnnames <- c("meanbodyaccelerationintimeoverxaxis","meanbodyaccelerationintimeoveryaxis","meanbodyaccelerationintimeoverzaxis",
-                     "standdarddeviationbodyaccelerationintimeoverxaxis","standdarddeviationbodyaccelerationintimeoveryaxis","standdarddeviationbodyaccelerationintimeoverzaxis",
-                     "meangravityaccelerationintimeoverxaxis","meangravityaccelerationintimeoveryaxis","meangravityaccelerationintimeoverzaxis",
-                     "standarddeviationgravityaccelerationintimeoverxaxis","standarddeviationgravityaccelerationintimeoveryaxis","standarddeviationgravityaccelerationintimeoverzaxis",
-                     "meanangularvelocityintimeoverxaxis","meanangularvelocityintimeoveryaxis","meanantidygularvelocityintimeoverzaxis",
-                     "standarddeviationangularvelocityintimeoverxaxis","standarddeviationangularvelocityintimeoveryaxis","standarddeviationangularvelocityintimeoverzaxis",
+    tidycolumnnames <- c("averagemeanbodyaccelerationintimeoverxaxis","averagemeanbodyaccelerationintimeoveryaxis","averagemeanbodyaccelerationintimeoverzaxis",
+                     "averagestanddarddeviationbodyaccelerationintimeoverxaxis","averagestanddarddeviationbodyaccelerationintimeoveryaxis","averagestanddarddeviationbodyaccelerationintimeoverzaxis",
+                     "averagemeangravityaccelerationintimeoverxaxis","averagemeangravityaccelerationintimeoveryaxis","averagemeangravityaccelerationintimeoverzaxis",
+                     "averagestandarddeviationgravityaccelerationintimeoverxaxis","averagestandarddeviationgravityaccelerationintimeoveryaxis","averagestandarddeviationgravityaccelerationintimeoverzaxis",
+                     "averagemeanangularvelocityintimeoverxaxis","averagemeanangularvelocityintimeoveryaxis","averagemeanangularvelocityintimeoverzaxis",
+                     "averagestandarddeviationangularvelocityintimeoverxaxis","averagestandarddeviationangularvelocityintimeoveryaxis","averagestandarddeviationangularvelocityintimeoverzaxis",
                      "activities", "subject")
     colnames(tidytable) <- tidycolumnnames
     tidytable <- arrange(tidytable, tidytable$subject)
@@ -52,33 +63,33 @@ Setup <- function(){
     write.table(x=results, file = "./tidydata.txt", row.names = F, quote= F, sep= " ")
 }
 
-FindMeanFeatures <- function() {
-    means <- matrix(ncol=2)
-    for (i in 1:length(features)){
-        if (grepl(pattern = ".*mean.*",features[i])) {
-            ## print(paste("Column:", i , " has:" , features[i]))
-            if (is.na(means)[1,1]) 
-                means[1,] <- c(i,features[i])
-            else 
-                means <- rbiFrnd(means,c(i,features[i]))
-        }
-    }
-    cbind(means,FALSE)
-}
-
-FindStdFeatures <- function() {
-    stds <- matrix(ncol=2)
-    for (i in 1:length(features)){
-        if (grepl(pattern = ".*std.*",features[i])) {
-            print(paste("Column:", i , " has:" , features[i]))  
-            if (is.na(stds)[1,1]) 
-                stds[1,] <- c(i,features[i])
-            else 
-                stds <- rbind(stds,c(i,features[i]))
-        }
-    }
-    cbind(stds, FALSE)
-}
+# FindMeanFeatures <- function() {
+#     means <- matrix(ncol=2)
+#     for (i in 1:length(features)){
+#         if (grepl(pattern = ".*mean.*",features[i])) {
+#             ## print(paste("Column:", i , " has:" , features[i]))
+#             if (is.na(means)[1,1]) 
+#                 means[1,] <- c(i,features[i])
+#             else 
+#                 means <- rbiFrnd(means,c(i,features[i]))
+#         }
+#     }
+#     cbind(means,FALSE)
+# }
+# 
+# FindStdFeatures <- function() {
+#     stds <- matrix(ncol=2)
+#     for (i in 1:length(features)){
+#         if (grepl(pattern = ".*std.*",features[i])) {
+#             print(paste("Column:", i , " has:" , features[i]))  
+#             if (is.na(stds)[1,1]) 
+#                 stds[1,] <- c(i,features[i])
+#             else 
+#                 stds <- rbind(stds,c(i,features[i]))
+#         }
+#     }
+#     cbind(stds, FALSE)
+# }
 
 
 
