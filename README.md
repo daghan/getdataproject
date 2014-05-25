@@ -21,7 +21,7 @@ angular velocity (3 features) measurements are taken. An independent tidy data s
 and each subject is provided as the final result.
 
 ## Choice of features
-While there are more than 60 feature columns representing  means and standard deviations, only 9 matched the criteria of actual measurements.
+While there are more than 60 feature columns representing  means and standard deviations, only 9 matched the criteria of actual _measurements_.
 All other derived values including frequency domain data and jerk data has been ignored. The 9 values considered for the project are X,Y,Z
 measurements for the body acceleration, gravity acceleration and angular velocity in time domain.
 
